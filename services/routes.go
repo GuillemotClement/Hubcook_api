@@ -9,7 +9,7 @@ func SetupRouter() *gin.Engine {
 	// initialisation du middleware et du CORS
 
 	// Route publique
-	r.POST("/register")
+	r.POST("/register", CreateUser)
 	r.POST("login")
 
 	return r
