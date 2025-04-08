@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/GuillemotClement/Hubcook_api/services"
+)
 
 func main() {
-	fmt.Printf("Hello World")
+	services.InitDB()
 }
