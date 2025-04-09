@@ -80,6 +80,7 @@ func CreateUser(c *gin.Context) {
 
 // login
 func Login(c *gin.Context) {
+	w := c.Writer
 	// on prepare la struct pour recuperer les donnees du json
 	var input struct {
 		Username string `json:"username"`
@@ -106,21 +107,40 @@ func Login(c *gin.Context) {
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(input.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"Erreur": "Echec de l'authentification"})
+		c.JSON(http.StatusUnauthorized, gin.H{"Erreur": "Echec de compare mdp"})
 		return
 	}
 
 	token, err := GenerateToken(input.Username, roleId)
-
-	log.Printf("Token : %v", token)
-	log.Printf("Err token : %v", err)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Echec du generation du token"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "connexion reussis", "token": token})
+	var userInfo struct {
+		Username string `json:"username"`
+		Image    string `json:"image"`
+		Role     string `json:"role"`
+		Email    string `json:"email"`
+	}
 
+	if err := db.QueryRow(`SELECT username, email, image, role_id FROM users WHERE username = $1`, input.Username).Scan(&userInfo.Username, &userInfo.Email, &userInfo.Image, &userInfo.Role); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Echec de recuperation des infos de l'utilisateur"})
+		return
+	}
+
+	// generation du cookie pour fournir le token
+	cookie := http.Cookie{}
+	cookie.Name = "token"
+	cookie.Value = token
+	cookie.Expires = time.Now().Add(24 * time.Hour)
+	cookie.Secure = false
+	cookie.SameSite = http.SameSiteDefaultMode
+	cookie.HttpOnly = true
+	cookie.Path = "/"
+	http.SetCookie(w, &cookie)
+
+	c.JSON(http.StatusOK, gin.H{"message": "authentification reussie", "userInfo": userInfo})
 }
 
 func GenerateToken(username string, role uint) (string, error) {
@@ -170,4 +190,40 @@ func AuthMiddleware(c *gin.Context) {
 	c.Set("username", claims.Username)
 	c.Set("role_id", claims.Role)
 	c.Next()
+}
+
+func Logout(c *gin.Context) {
+	// recuperation du writter depuis le context Gin
+	w := c.Writer
+
+	// on tente de recuperer le cookie token
+	cookieResult, err := c.Request.Cookie("token")
+
+	log.Printf("Cookie recu : %v", cookieResult)
+
+	if err != nil {
+		if err == http.ErrNoCookie {
+			log.Printf("Erreur cookie non present :%v", err)
+			// pas de cookie
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Aucun coookie trouver"})
+			return
+		}
+		log.Printf("Seconde erreur : %v", err)
+		// autre cas d'erreur
+		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Erreur lors de la recuperation de la requete"})
+		return
+	}
+
+	// on ecrase le cookie pour le supprimer.
+	cookie := &http.Cookie{
+		Name:     "token", // nom du cookie
+		Value:    "",
+		MaxAge:   -1,  // supression immediate
+		Path:     "/", // meme path que lors de la creation
+		HttpOnly: true,
+	}
+
+	http.SetCookie(w, cookie) // ecrasemeent de l'ancien cookie
+
+	c.JSON(http.StatusOK, gin.H{"message": "Logout"})
 }
