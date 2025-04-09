@@ -1,0 +1,36 @@
+BEGIN;
+
+CREATE TABLE role (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL UNIQUE,
+  is_active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  image VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  role_id INT NOT NULL REFERENCES role(id)
+);
+
+CREATE TABLE category (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE recipe (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL UNIQUE,
+  describ TEXT NOT NULL,
+  time_prep INT NOT NULL,
+  image VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  user_id INT NOT NULL REFERENCES users(id),
+  category_id INT NOT NULL REFERENCES category(id)
+);
+
+COMMIT;
