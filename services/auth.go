@@ -118,13 +118,14 @@ func Login(c *gin.Context) {
 	}
 
 	var userInfo struct {
+		Id       uint   `json:"id"`
 		Username string `json:"username"`
 		Image    string `json:"image"`
 		Role     string `json:"role"`
 		Email    string `json:"email"`
 	}
 
-	if err := db.QueryRow(`SELECT username, email, image, role_id FROM users WHERE username = $1`, input.Username).Scan(&userInfo.Username, &userInfo.Email, &userInfo.Image, &userInfo.Role); err != nil {
+	if err := db.QueryRow(`SELECT id, username, email, image, role_id FROM users WHERE username = $1`, input.Username).Scan(&userInfo.Id, &userInfo.Username, &userInfo.Email, &userInfo.Image, &userInfo.Role); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Echec de recuperation des infos de l'utilisateur"})
 		return
 	}
