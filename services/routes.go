@@ -23,6 +23,8 @@ func SetupRouter() *gin.Engine {
 	r.POST("/register", CreateUser)
 	r.POST("/login", Login)
 	r.GET("/logout", Logout)
+	r.GET("/recipe", GetRecipes)
+	r.GET("/recipe/:id", GetDetailRecipe)
 
 	// Route proteger
 	protected := r.Group("/", AuthMiddleware)

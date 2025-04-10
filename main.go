@@ -6,18 +6,19 @@ import (
 
 func main() {
 
-	// port := ":8086"
+	port := ":8086"
 
 	services.InitDB()
+
+	// generation du seed des data en BDD
 	services.GenerateFileSeedingDB()
-	// services.GenerateUser(5)
 
 	// initialisation du router
-	// r := services.SetupRouter()
+	r := services.SetupRouter()
 
 	// autorisation du proxy
-	// r.SetTrustedProxies(nil) // retire l'erreur
+	r.SetTrustedProxies(nil) // retire l'erreur
 
 	// lancement du serveur
-	// r.Run(port)
+	r.Run(port)
 }

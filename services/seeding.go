@@ -186,7 +186,7 @@ func GenerateRecipe(numberToGenerate uint) (queryRecipe string) {
 		randomUserId := rand.Intn(3-0) + 1
 		randomCategory := rand.Intn(8-1) + 1
 
-		urlPicture := fmt.Sprintf("https://fastly.picsum.photos/id/%v/400/400.jpg", randomValue)
+		urlPicture := fmt.Sprintf("https://picsum.photos/200/300?random=%v", randomValue)
 
 		recipeData := RecipeSeed{
 			Title:      fmt.Sprintf(faker.Word() + faker.Word()),
