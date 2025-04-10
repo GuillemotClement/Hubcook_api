@@ -1,18 +1,59 @@
 BEGIN;
 
-INSERT INTO role (title) 
-VALUES 
+INSERT INTO role (title) VALUES 
 ('admin'),
 ('user'),
 ('moderator'),
 ('writter');
 
-INSERT INTO category (title)
-VALUES
+INSERT INTO users (username, email, password, image, role_id) VALUES 
+('gizmo', 'gizmo@mail.com', '$2a$10$OJrkHZyCMyMGjGilXOL51uyWZKc/mv3t1y2MsxzTZMMYB22Eg91Ru', 'https://randomuser.me/api/portraits/men/9.jpg', '1'),
+('Viviane', 'Viviane@mail.com', '$2a$10$OJrkHZyCMyMGjGilXOL51uyWZKc/mv3t1y2MsxzTZMMYB22Eg91Ru', 'https://randomuser.me/api/portraits/men/9.jpg', '2'),
+('Rahul', 'Rahul@mail.com', '$2a$10$OJrkHZyCMyMGjGilXOL51uyWZKc/mv3t1y2MsxzTZMMYB22Eg91Ru', 'https://randomuser.me/api/portraits/men/7.jpg', '1'),
+('Linwood', 'Linwood@mail.com', '$2a$10$OJrkHZyCMyMGjGilXOL51uyWZKc/mv3t1y2MsxzTZMMYB22Eg91Ru', 'https://randomuser.me/api/portraits/men/3.jpg', '2'),
+('Mose', 'Mose@mail.com', '$2a$10$OJrkHZyCMyMGjGilXOL51uyWZKc/mv3t1y2MsxzTZMMYB22Eg91Ru', 'https://randomuser.me/api/portraits/men/2.jpg', '2'),
+('Elvie', 'Elvie@mail.com', '$2a$10$OJrkHZyCMyMGjGilXOL51uyWZKc/mv3t1y2MsxzTZMMYB22Eg91Ru', 'https://randomuser.me/api/portraits/men/9.jpg', '2');
+
+INSERT INTO category (title) VALUES 
+('salade'),
 ('fast food'),
 ('vegan'),
-('entree'),
+('viande'),
 ('desert'),
-('soupe');
+('entree'),
+('plat'),
+('gouter');
+
+INSERT INTO recipe (title, describ, time_prep, image, user_id, category_id) VALUES
+('commodiest', 'Est voluptatem et non consequuntur quaerat. Possimus aspernatur modi esse corporis animi. Assumenda mollitia laboriosam suscipit quod vel. Ea voluptas incidunt saepe dolore laudantium. Nisi eligendi dolore voluptates officia voluptatum. A assumenda quis possimus ut totam. Sint suscipit commodi molestias voluptatem temporibus.', '180', 'https://fastly.picsum.photos/id/488/400/400.jpg', '3', '1'),
+('earumet', 'Provident a sit saepe eaque molestiae. Veniam corrupti eaque qui quam tempora. Voluptatum ut quos at consequatur accusantium. Est ea magni doloremque soluta mollitia.', '189', 'https://fastly.picsum.photos/id/544/400/400.jpg', '3', '3'),
+('consequunturet', 'Iusto quaerat non excepturi voluptatibus et. Quis accusamus nemo et aut reiciendis. Unde quo id cumque illo et. Vel ipsam architecto esse nobis et.', '176', 'https://fastly.picsum.photos/id/873/400/400.jpg', '1', '1'),
+('minusquod', 'Officiis natus at sunt totam facilis. Eveniet aut ipsum et est vel. Est accusamus quaerat totam rerum voluptatem. Et ducimus debitis vel dolorum nemo. Quos a tenetur sed atque ipsum. Facere voluptatem maxime et harum dolores. Quidem ipsa autem dolor assumenda numquam. In consequatur sit optio nobis impedit. Dolorum culpa qui ut nihil doloribus. Aliquam cupiditate repudiandae omnis alias vel.', '138', 'https://fastly.picsum.photos/id/524/400/400.jpg', '1', '5'),
+('consequatursimilique', 'Dolores eaque debitis distinctio est error. Voluptatem iure voluptatem ratione reprehenderit cumque. Et occaecati eos sit deserunt qui. Veniam omnis omnis maiores atque quia. Asperiores consequatur ut tempore eos earum. Recusandae non ut facilis a qui. Quis molestiae tenetur maxime velit ut. Eum modi facere ut provident dolore. Iure et recusandae totam culpa nisi.', '88', 'https://fastly.picsum.photos/id/502/400/400.jpg', '1', '3'),
+('autemipsa', 'Et a tenetur quis ut voluptas. Ut consequuntur sit est enim ad. Aut voluptatibus et repellendus ea magni.', '87', 'https://fastly.picsum.photos/id/603/400/400.jpg', '1', '3'),
+('eosesse', 'Et reiciendis dignissimos modi aut sapiente. Minima est nisi sed voluptas non.', '103', 'https://fastly.picsum.photos/id/126/400/400.jpg', '1', '3'),
+('enimquia', 'Modi dolorem aut et tempora autem.', '135', 'https://fastly.picsum.photos/id/90/400/400.jpg', '3', '2'),
+('velitesse', 'Laudantium excepturi sed dolorem est quos. Eligendi perspiciatis rem quia eos voluptas. Eligendi eaque adipisci repellendus quos atque.', '125', 'https://fastly.picsum.photos/id/900/400/400.jpg', '2', '1'),
+('facerelaudantium', 'Mollitia velit ex tempore sint dolorum. Sit iusto rerum a et necessitatibus. Et aut nisi sint ipsa voluptatem. Laboriosam voluptates sint quo non perferendis. Eligendi fugit nesciunt qui distinctio id. Et possimus error ea nostrum ullam.', '22', 'https://fastly.picsum.photos/id/504/400/400.jpg', '3', '3'),
+('etut', 'Minima libero ut rerum blanditiis qui. Eos perspiciatis quis ea incidunt qui. Quam sint velit minus quos ut. Veniam eligendi aut similique unde eveniet. Nihil tempora cumque recusandae rerum provident. Adipisci eligendi incidunt sed quia cupiditate. Earum voluptas quo ipsum est asperiores. Sunt et molestias quibusdam porro eos.', '135', 'https://fastly.picsum.photos/id/852/400/400.jpg', '3', '2'),
+('quamerror', 'Vel et veniam et nulla rem. Voluptas optio quae et tempore officiis. Atque deleniti sed nobis consectetur adipisci. Quis occaecati consequatur nobis et sint. Nostrum et ratione nihil in id. Et voluptatem fugiat ratione nobis ut. Magnam nobis et voluptatibus similique possimus. Voluptatem harum blanditiis aut quia necessitatibus. Cum eum sint et est dolorem.', '52', 'https://fastly.picsum.photos/id/221/400/400.jpg', '3', '3'),
+('distinctioperferendis', 'Voluptatem non iusto omnis nesciunt voluptate. Voluptas quas facere exercitationem et vel. Quaerat voluptatum voluptatibus molestiae dicta magni. Cum rem sed ex ipsa perferendis. Nesciunt eaque aut distinctio molestiae nostrum. Nihil a non iusto dolorem eos. Dolor quam sed quia fugit fuga. Voluptatem voluptates aliquam ab aut unde. Quas quia quae assumenda iure tempora. Tempore voluptatibus incidunt qui aperiam excepturi.', '39', 'https://fastly.picsum.photos/id/538/400/400.jpg', '2', '5'),
+('consequaturomnis', 'Voluptas facere cum atque a quaerat. Magnam repudiandae natus perspiciatis dolores consequuntur. Ab impedit eveniet modi libero explicabo. Iste dolorum delectus impedit nulla ad. Quis nemo quas enim quasi aut. Eos autem nostrum asperiores qui amet.', '121', 'https://fastly.picsum.photos/id/426/400/400.jpg', '1', '2'),
+('veritatismolestiae', 'Iste ipsum voluptates nihil unde fugiat. Quae est perferendis et ipsa harum. A voluptatem non eos et dolorem. Cum molestiae odit quasi eaque sequi. Voluptatibus nesciunt vitae ab sit quas. Qui nam et enim placeat repellat. Beatae dolor qui unde maxime ut. Et et quia ut consequatur dignissimos. Repudiandae porro doloribus et ducimus facilis.', '95', 'https://fastly.picsum.photos/id/481/400/400.jpg', '2', '6'),
+('doloribusneque', 'Suscipit veritatis ratione debitis similique illo. Reiciendis vel non corrupti sed debitis. Est iste omnis facere illum ut. Ut enim provident vel recusandae aut. Eum tenetur quam sit enim reprehenderit. Harum non rerum quidem et ut. Corrupti et asperiores sunt autem doloribus. Perspiciatis enim aut ab qui eaque. Consequuntur quos ut dolorem optio id. Sit qui itaque omnis at nobis.', '36', 'https://fastly.picsum.photos/id/452/400/400.jpg', '2', '1'),
+('eumerror', 'Et molestiae deserunt nemo ut impedit. Totam sed quo eos doloribus eaque. Mollitia natus dignissimos explicabo consequatur magni. Corrupti autem in omnis necessitatibus dolorem. Rerum quis excepturi vitae labore nobis. Temporibus vitae quasi doloribus eligendi placeat.', '128', 'https://fastly.picsum.photos/id/816/400/400.jpg', '2', '1'),
+('ducimusmaxime', 'Aut in consectetur sit quibusdam error. Sed quidem eveniet quo expedita provident. Accusantium odio eos rem voluptate et. Quis quas porro quisquam ut aut. Doloremque accusamus nemo ratione repellat aspernatur. Saepe eos soluta unde occaecati labore. Quia amet nihil quidem sint tempore.', '144', 'https://fastly.picsum.photos/id/583/400/400.jpg', '3', '4'),
+('voluptateminima', 'Blanditiis cum et libero sit eos. Id est mollitia sit corporis voluptatem. Placeat eos sit officiis voluptatum quo. Quidem cum quasi quo omnis laudantium. Dicta nobis quod autem sequi non. Rerum omnis occaecati quia provident quia. Animi beatae modi voluptatibus distinctio ipsa. Omnis cum eligendi natus quod molestiae. Distinctio et labore quo et nulla.', '3', 'https://fastly.picsum.photos/id/668/400/400.jpg', '3', '5'),
+('voluptatemet', 'Enim perspiciatis accusamus ullam iste tempore. Natus quam culpa illo necessitatibus dolores. Consequuntur aliquam dolores beatae itaque inventore. Non consequatur blanditiis impedit suscipit earum. Quaerat optio ipsam qui ut officiis. Asperiores ex eligendi dolorem eum et. Ea quia aut necessitatibus iusto dolorem. Similique ad tenetur inventore omnis aut. Culpa aspernatur quaerat porro amet nesciunt. Et mollitia sunt debitis voluptas fugit.', '68', 'https://fastly.picsum.photos/id/681/400/400.jpg', '3', '3'),
+('quiaprovident', 'Quidem voluptates et et voluptatem a. Architecto reprehenderit sequi et sit iure. Error ex maxime molestiae provident ipsa. Quidem et et aut iure architecto. Totam eveniet odio libero impedit eos. Dicta quisquam omnis est in harum. Minima reiciendis maiores facere iure esse. Sequi fugiat illum similique earum non. Et ut recusandae dicta modi atque.', '174', 'https://fastly.picsum.photos/id/677/400/400.jpg', '2', '2'),
+('etanimi', 'Dolores repellat consectetur doloremque quaerat qui. Explicabo eos est qui molestias quibusdam. At et illum error iste repellat. Atque ipsa ducimus occaecati veritatis enim.', '118', 'https://fastly.picsum.photos/id/939/400/400.jpg', '2', '2'),
+('rerumnecessitatibus', 'Quia facere est blanditiis error esse.', '169', 'https://fastly.picsum.photos/id/22/400/400.jpg', '3', '2'),
+('nemosimilique', 'Ratione ea cupiditate totam nemo commodi. Voluptatibus dolor exercitationem sint beatae id. Alias illum molestiae suscipit nostrum ab. Ipsa minima perspiciatis officiis velit velit.', '127', 'https://fastly.picsum.photos/id/945/400/400.jpg', '1', '4'),
+('aliquidut', 'Et eveniet dolore consequatur illum nulla. Non aut et placeat et eius. Quasi animi enim sequi maiores consequuntur. Commodi voluptatem et fugiat qui dolorem. Cum nisi nesciunt voluptas voluptas minus. Maxime deserunt doloremque excepturi voluptatum voluptas. Sit velit aliquid cupiditate maiores hic. Atque dolore reiciendis eaque nobis sequi. Maiores fugit sequi quod consequatur fugiat.', '29', 'https://fastly.picsum.photos/id/861/400/400.jpg', '2', '7'),
+('illumtempore', 'Qui modi possimus velit vitae qui. Dolor vero non quis ad quia. Et numquam eum fuga fugit quod. At ea dolorem nesciunt exercitationem nemo. Pariatur sunt et voluptate modi enim. Itaque impedit maiores et dolorem libero. Voluptates reprehenderit reiciendis quisquam ad nesciunt.', '78', 'https://fastly.picsum.photos/id/901/400/400.jpg', '3', '6'),
+('itaquelibero', 'Unde at reiciendis iusto voluptatem natus. Voluptas ratione quidem suscipit cupiditate fuga. In atque omnis ratione nostrum at. Omnis animi adipisci nostrum suscipit qui. Qui aut iure soluta perspiciatis ut. Quod magnam neque tempore deserunt qui. Est repellat vitae non pariatur quod. Labore dolorum dicta rerum voluptate beatae.', '94', 'https://fastly.picsum.photos/id/236/400/400.jpg', '2', '1'),
+('solutaaut', 'Sunt sed porro voluptates velit quia. Dignissimos quia ut est in sit.', '113', 'https://fastly.picsum.photos/id/38/400/400.jpg', '2', '5'),
+('quiaaut', 'Sunt exercitationem placeat ipsa laborum quis. Quaerat corrupti in voluptatem unde accusantium. Eos magni rerum voluptate qui provident. Temporibus rerum possimus minima quam voluptate. Aut et itaque laboriosam nihil tempora. Est molestias dolorem aut quia omnis. Commodi aut in tempora autem maxime.', '131', 'https://fastly.picsum.photos/id/535/400/400.jpg', '2', '2'),
+('utullam', 'Dicta sunt sint unde fugiat qui. Animi eveniet non inventore aut et. Placeat exercitationem consequatur ut in qui. Iusto expedita eaque est iure cum. Saepe temporibus iste a ut accusamus. Nulla aut magni totam et sunt. Quaerat quae rerum rerum quo et. Expedita non inventore mollitia et id.', '156', 'https://fastly.picsum.photos/id/573/400/400.jpg', '2', '4');
 
 COMMIT;

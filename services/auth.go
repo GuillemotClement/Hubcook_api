@@ -67,8 +67,6 @@ func CreateUser(c *gin.Context) {
 	var userId int
 	err = db.QueryRow(`INSERT INTO users(username, email, password, image, role_id) VALUES($1, $2, $3, $4, $5) RETURNING id`, input.Username, input.Email, input.Password, input.Image, input.RoleId).Scan(&userId)
 
-	log.Println(err)
-
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Echec de l'enregistrement de l'utilisateur"})
 		return
@@ -94,7 +92,8 @@ func Login(c *gin.Context) {
 
 	var hashPassword string
 	var roleId uint
-	err := db.QueryRow(`SELECT password, role_id FROM users WHERE username = $1`, input.Username).Scan(&hashPassword, &roleId)
+	var userId uint
+	err := db.QueryRow(`SELECT id, password, role_id FROM users WHERE username = $1`, input.Username).Scan(&userId, &hashPassword, &roleId)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Erreur lors du traitement du login"})
@@ -111,7 +110,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := GenerateToken(input.Username, roleId)
+	token, err := GenerateToken(userId, roleId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Erreur": "Echec du generation du token"})
 		return
@@ -144,33 +143,35 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "authentification reussie", "userInfo": userInfo})
 }
 
-func GenerateToken(username string, role uint) (string, error) {
+func GenerateToken(id uint, role uint) (string, error) {
 	// definition du temps d'expiration du token
 	expirationTime := time.Now().Add((24 * 7) * time.Hour)
 
-	log.Print(expirationTime)
-
 	claims := &models.Claims{
-		Username: username,
-		Role:     role,
+		Id:   id,
+		Role: role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
 	}
 
-	log.Print(claims)
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	log.Print(token)
 	return token.SignedString(jwtKey)
 }
 
 // middleware authentification
 func AuthMiddleware(c *gin.Context) {
+
+	tokenString, err := c.Request.Cookie("token")
 	// recuperation du token depuis le header
-	tokenString := c.GetHeader("Authorization")
-	if tokenString == "" {
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Erreur": "Erreur token"})
+		return
+	}
+
+	if tokenString.Value == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"Erreur": "Token manquant"})
 		return
 	}
@@ -178,7 +179,7 @@ func AuthMiddleware(c *gin.Context) {
 	claims := &models.Claims{}
 
 	// recuperation du token
-	token, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString.Value, claims, func(t *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 
@@ -188,8 +189,8 @@ func AuthMiddleware(c *gin.Context) {
 		return
 	}
 
-	c.Set("username", claims.Username)
-	c.Set("role_id", claims.Role)
+	c.Set("userId", claims.Id)
+	c.Set("roleId", claims.Role)
 	c.Next()
 }
 
